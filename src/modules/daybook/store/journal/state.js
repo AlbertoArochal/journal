@@ -1,23 +1,25 @@
-export default () => ({
+const state = () => ({
   isLoading: true,
   entries: [
     {
-      id: new Date().getTime(),
+      id: "1",
       date: new Date().toDateString(),
       text: "lorem ipsum dolor sit amet consectetur adipisicing elit.",
       picture: null,
     },
     {
-      id: new Date().getTime() + 1000,
+      id: "2",
       date: new Date().toDateString(),
-      text: "lorem ipsum dolor sit amet consectetur adipisicing elit.",
+      text: "lorem ipsum dolor sit amet consectetur adipisicing elit. lorem ipsum dolor sit amet consectetur adipisicing elit. lorem ipsum dolor sit amet consectetur adipisicing elit. lorem ipsum dolor sit amet consectetur adipisicing elit. lorem ipsum dolor sit amet consectetur adipisicing elit.",
       picture: null,
     },
     {
-      id: new Date().getTime() + 2000,
+      id: "3",
       date: new Date().toDateString(),
       text: "lorem ipsum dolor sit amet consectetur adipisicing elit.",
       picture: null,
     },
   ],
 });
+
+export default state;
