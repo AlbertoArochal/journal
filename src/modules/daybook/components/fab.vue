@@ -1,5 +1,5 @@
 <template>
-  <button class="btn btn-primary">
+  <button class="btn btn-primary" @click="submit">
     <i class="fa fa-2x" :class="icon"></i>
   </button>
 </template>
@@ -16,6 +16,9 @@ export default {
   methods: {
     onClick() {
       console.log("click");
+    },
+    submit() {
+      this.$emit("onClick");
     },
   },
 };

@@ -25,7 +25,7 @@
         placeholder="Que sucedio hoy?"
       ></textarea></div
   ></template>
-  <FabButton icon="fa-save" />
+  <FabButton icon="fa-save" @on-click="saveEntry" />
   <img
     src="https://imagenes.20minutos.es/files/og_thumbnail/uploads/imagenes/2020/12/28/belen-esteban-en-el-anuncio-navideno-de-amazon-prime-video.png"
     alt="Belen comiendo croquetas"
@@ -81,6 +81,9 @@ export default {
         return this.$router.push({ name: "no-entry" });
       }
       this.entry = entry;
+    },
+    async saveEntry() {
+      console.log("save");
     },
   },
 
