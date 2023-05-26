@@ -2,7 +2,7 @@
   <template v-if="entry">
     <div class="entry-title justify-content-between p-2">
       <div>
-        <span class="text-success fs-3 fw-bold"> {{ day }}</span>
+        <span class="text-success fs-3 fw-bold"> {{ day }} </span>
         <span class="mx1 fs-3"> {{ month }} </span>
         <span class="mx-2 fs-4 fw-light"> {{ yearDay }} </span>
       </div>
@@ -25,7 +25,7 @@
         placeholder="Que sucedio hoy?"
       ></textarea></div
   ></template>
-  <FabButton icon="fa-save" @on-click="saveEntry" />
+  <FabButton icon="fa-save" @click="saveEntry" />
   <img
     src="https://imagenes.20minutos.es/files/og_thumbnail/uploads/imagenes/2020/12/28/belen-esteban-en-el-anuncio-navideno-de-amazon-prime-video.png"
     alt="Belen comiendo croquetas"
@@ -35,7 +35,7 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import getMonthYear from "../helpers/getDayMonthYear";
 
 export default {
@@ -53,6 +53,7 @@ export default {
   data() {
     return {
       entry: null,
+      isCreatingEntry: false,
     };
   },
 
@@ -72,18 +73,38 @@ export default {
     },
   },
   methods: {
+    ...mapActions("journal", ["updateEntry", "createEntry"]),
+
     goToDayBook() {
       this.$router.push({ name: "no-entry" });
     },
     loadEntry() {
-      const entry = this.getEntryById(this.id);
-      if (!entry) {
-        return this.$router.push({ name: "no-entry" });
+      if (this.id === "new") {
+        this.entry = {
+          id: "new",
+          date: new Date().getTime(),
+          text: "",
+          picture: null,
+        };
+      } else {
+        if (!this.id) {
+          this.$router.push({ name: "no-entry" });
+        }
+        this.entry = this.getEntryById(this.id);
       }
-      this.entry = entry;
     },
     async saveEntry() {
-      console.log("save");
+      if (this.entry.id !== "new") {
+        await this.updateEntry(this.entry);
+      } else if (!this.isCreatingEntry) {
+        this.isCreatingEntry = true;
+        const newEntry = {
+          ...this.entry,
+        };
+        const newId = await this.createEntry(newEntry);
+        this.$router.push({ name: "entry", params: { id: newId } });
+        this.isCreatingEntry = false;
+      }
     },
   },
 
