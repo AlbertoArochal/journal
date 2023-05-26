@@ -14,11 +14,8 @@ export default {
   },
   name: "FabButton",
   methods: {
-    onClick() {
-      console.log("click");
-    },
     submit() {
-      this.$emit("onClick");
+      this.$emit("click");
     },
   },
 };
